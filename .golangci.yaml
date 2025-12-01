@@ -1,0 +1,92 @@
+version: "2"
+
+formatters:
+  enable:
+    - goimports
+    - golines
+    - gofumpt
+  settings:
+    gofumpt:
+      extra-rules: true
+    golines:
+      max-len: 120
+      tab-len: 4
+      shorten-comments: true 
+      reformat-tags: true
+      chain-split-dots: true
+
+linters:
+  default: standard
+  enable:
+    - asasalint
+    - asciicheck
+    - bidichk
+    - bodyclose
+    - canonicalheader 
+    - copyloopvar 
+    - cyclop
+    - depguard 
+    - durationcheck 
+    - embeddedstructfieldcheck 
+    - errname 
+    - errorlint 
+    - exhaustive 
+    - exptostd
+    - fatcontext
+    - funcorder
+    - gocheckcompilerdirectives
+    - gochecksumtype 
+    - gocognit
+    - goconst
+    - gocritic
+    - gocyclo
+    - gomoddirectives
+    - goprintffuncname
+    - gosec
+    - govet
+    - iface
+    - ineffassign
+    - intrange
+    - makezero
+    - mirror 
+    - nakedret
+    - nestif 
+    - nilerr
+    - nilnesserr
+    - nilnil
+    - noctx
+    - nolintlint
+    - nosprintfhostport
+    - perfsprint
+    - predeclared 
+    - promlinter 
+    - protogetter 
+    - reassign 
+    - rowserrcheck 
+    - sloglint 
+    - spancheck 
+    - sqlclosecheck 
+    - staticcheck
+    - testableexamples 
+    - testifylint 
+    - testpackage
+    - tparallel 
+    - unconvert 
+    - unused 
+    - usestdlibvars 
+    - usetesting 
+    - wastedassign 
+    - whitespace
+  
+  disable:
+    - errcheck
+
+  settings:
+    gosec:
+      excludes:
+        - G104 # Ignore errors returned by Close methods
+        - G204 # Ignore use of subprocesses
+
+run:
+  timeout: 5m
+  tests: false # skip test files
