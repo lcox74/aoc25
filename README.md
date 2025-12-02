@@ -8,9 +8,12 @@ repo will contain my Golang solutions.
 | Day | Solution | Puzzle            |
 |-----|----------|-------------------|
 | 01  | [day01/] | [Secret Entrance] |
+| 02  | [day02/] | [Gift Shop] |
 
 [day01/]: ./day01/
+[day02/]: ./day02/
 [Secret Entrance]: (https://adventofcode.com/2025/day/1) 
+[Gift Shop]: (https://adventofcode.com/2025/day/2) 
 
 ## Usage
 

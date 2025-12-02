@@ -18,6 +18,18 @@ day01-test:
     @echo "Running Day 1 Example Test"
     @go test ./day01 
 
+# Run Day 2 with real input
+[group('day02')]
+day02:
+    @echo "Running Day 2"
+    @go run ./day02 -i ./day02/input.txt
+
+# Run Day 2 with example input
+[group('day02')]
+day02-test:
+    @echo "Running Day 2 Example Test"
+    @go test ./day02 
+
 # Format code
 [group('dev')]
 fmt:
