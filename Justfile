@@ -28,7 +28,19 @@ day02:
 [group('day02')]
 day02-test:
     @echo "Running Day 2 Example Test"
-    @go test ./day02 
+    @go test ./day02
+
+# Run Day 3 with real input
+[group('day03')]
+day03:
+    @echo "Running Day 3"
+    @go run ./day03 -i ./day03/input.txt
+
+# Run Day 3 with example input
+[group('day03')]
+day03-test:
+    @echo "Running Day 3 Example Test"
+    @go test ./day03
 
 # Format code
 [group('dev')]
@@ -47,3 +59,8 @@ lint:
 modernize:
     @echo "Modernizing code to latest Go idioms..."
     @go run golang.org/x/tools/gopls/internal/analysis/modernize/cmd/modernize@latest -fix -test ./...
+
+# Pre-commit: format, lint, modernize, and test
+[group('dev')]
+pre-commit: fmt lint modernize test
+    @echo "Pre-commit checks completed."

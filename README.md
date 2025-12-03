@@ -9,11 +9,14 @@ repo will contain my Golang solutions.
 |-----|----------|-------------------|
 | 01  | [day01/] | [Secret Entrance] |
 | 02  | [day02/] | [Gift Shop] |
+| 02  | [day03/] | [Lobby] |
 
 [day01/]: ./day01/
 [day02/]: ./day02/
+[day03/]: ./day03/
 [Secret Entrance]: (https://adventofcode.com/2025/day/1) 
 [Gift Shop]: (https://adventofcode.com/2025/day/2) 
+[Lobby]: (https://adventofcode.com/2025/day/3) 
 
 ## Usage
 
