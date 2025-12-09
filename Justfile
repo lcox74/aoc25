@@ -1,46 +1,20 @@
 default:
     @just --list --unsorted
 
-# Run all tests
-test:
-    @echo "Running all tests..."
-    @go test ./...
+# Run a specific day with real input (e.g., just run day01)
+run day:
+    @echo "Running {{day}}"
+    @go run ./{{day}} -i ./{{day}}/input.txt
 
-# Run Day 1 with real input
-[group('day01')]
-day01:
-    @echo "Running Day 1"
-    @go run ./day01 -i ./day01/input.txt
-
-# Run Day 1 with example input
-[group('day01')]
-day01-test:
-    @echo "Running Day 1 Example Test"
-    @go test ./day01 
-
-# Run Day 2 with real input
-[group('day02')]
-day02:
-    @echo "Running Day 2"
-    @go run ./day02 -i ./day02/input.txt
-
-# Run Day 2 with example input
-[group('day02')]
-day02-test:
-    @echo "Running Day 2 Example Test"
-    @go test ./day02
-
-# Run Day 3 with real input
-[group('day03')]
-day03:
-    @echo "Running Day 3"
-    @go run ./day03 -i ./day03/input.txt
-
-# Run Day 3 with example input
-[group('day03')]
-day03-test:
-    @echo "Running Day 3 Example Test"
-    @go test ./day03
+# Run tests for a specific day (e.g., just test day01), or all tests if no day specified
+test day="":
+    @if [ -z "{{day}}" ]; then \
+        echo "Running all tests..."; \
+        go test ./...; \
+    else \
+        echo "Running {{day}} Example Test"; \
+        go test ./{{day}}; \
+    fi
 
 # Format code
 [group('dev')]
