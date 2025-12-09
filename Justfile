@@ -36,5 +36,5 @@ modernize:
 
 # Pre-commit: format, lint, modernize, and test
 [group('dev')]
-pre-commit: fmt lint modernize test
+pre-commit: modernize fmt lint test
     @echo "Pre-commit checks completed."
