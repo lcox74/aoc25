@@ -17,12 +17,6 @@ type JunctionBox struct {
 	X, Y, Z int
 }
 
-// Edge represents a pair of junction boxes and their squared distance.
-type Edge struct {
-	I, J   int
-	DistSq int64
-}
-
 // Playground connects junction boxes with light strings to form circuits.
 // Part 1: After connecting 1000 closest pairs, multiply sizes of 3 largest circuits.
 // Part 2: Connect until one circuit; return product of X coords of last connection.
@@ -65,11 +59,10 @@ func (p *Playground) Parse(r io.Reader) {
 		}
 		p.boxes = append(p.boxes, JunctionBox{X: x, Y: y, Z: z})
 	}
-	p.solve()
+	p.Solve(1000)
 }
 
-// Solve connects junction boxes and computes circuit sizes using brute force.
-// numConnections specifies how many pairs to connect for Part 1.
+// Solve connects junction boxes using Kruskal's MST algorithm.
 func (p *Playground) Solve(numConnections int) {
 	n := len(p.boxes)
 	if n == 0 {
@@ -77,15 +70,11 @@ func (p *Playground) Solve(numConnections int) {
 	}
 
 	p.initUnionFind(n)
+	edges := buildEdges(p.boxes)
 
-	edges := p.buildAllEdges()
-	sortEdgesByDistance(edges)
-
-	// Track connections and circuits
 	connected := 0
 	circuits := n
 	var lastMerge Edge
-	part1Computed := false
 
 	for _, e := range edges {
 		if p.union(e.I, e.J) {
@@ -94,28 +83,14 @@ func (p *Playground) Solve(numConnections int) {
 		}
 		connected++
 
-		// Part 1: compute after numConnections
-		if connected == numConnections && !part1Computed {
-			sizes := p.computeCircuitSizes()
-			p.ResultPart1 = topNProduct(sizes, 3)
-			part1Computed = true
+		if connected == numConnections {
+			p.ResultPart1 = p.topCircuitProduct(3)
 		}
-
-		// Part 2: stop when all in one circuit
 		if circuits == 1 {
+			p.ResultPart2 = p.boxes[lastMerge.I].X * p.boxes[lastMerge.J].X
 			break
 		}
 	}
-
-	// Part 2: product of X coordinates of last connection
-	if circuits == 1 {
-		p.ResultPart2 = p.boxes[lastMerge.I].X * p.boxes[lastMerge.J].X
-	}
-}
-
-// solve is called after parsing with default 1000 connections.
-func (p *Playground) solve() {
-	p.Solve(1000)
 }
 
 func main() {

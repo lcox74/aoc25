@@ -1,8 +1,6 @@
 package main_test
 
 import (
-	"io"
-	"os"
 	"strings"
 	"testing"
 
@@ -47,88 +45,4 @@ func TestExample(t *testing.T) {
 	// Part 2: Last connection to form single circuit is between
 	// 216,146,977 and 117,168,530 -> 216 * 117 = 25272
 	require.Equal(t, 25272, solver.ResultPart2)
-}
-
-func TestExampleWithKDTree(t *testing.T) {
-	solver := main.NewPlayground()
-	solver.Parse(strings.NewReader(exampleInput))
-
-	// Test KD-Tree solution with 10 connections
-	solver.SolveWithKDTree(10)
-
-	// Should produce same result as brute force
-	require.Equal(t, 40, solver.ResultPart1)
-}
-
-func TestKDTreeMatchesBruteForce(t *testing.T) {
-	// Test that KD-Tree solution matches brute force on example input
-	solver1 := main.NewPlayground()
-	solver1.Parse(strings.NewReader(exampleInput))
-	solver1.Solve(10)
-
-	solver2 := main.NewPlayground()
-	solver2.Parse(strings.NewReader(exampleInput))
-	solver2.SolveWithKDTree(10)
-
-	require.Equal(t, solver1.ResultPart1, solver2.ResultPart1,
-		"KD-Tree result should match brute force result")
-}
-
-func TestKDTreeOnRealInput(t *testing.T) {
-	// This test verifies KD-Tree matches brute force on the real input
-	// by reading from the input file
-	f, err := os.Open("input.txt")
-	if err != nil {
-		t.Skip("input.txt not found, skipping real input test")
-	}
-	defer f.Close()
-
-	// Read input into buffer so we can parse twice
-	content, _ := io.ReadAll(f)
-
-	solver1 := main.NewPlayground()
-	solver1.Parse(strings.NewReader(string(content)))
-	solver1.Solve(1000)
-
-	solver2 := main.NewPlayground()
-	solver2.Parse(strings.NewReader(string(content)))
-	solver2.SolveWithKDTree(1000)
-
-	require.Equal(t, solver1.ResultPart1, solver2.ResultPart1,
-		"KD-Tree result should match brute force on real input")
-}
-
-// loadRealInput loads the real input for benchmarks.
-func loadRealInput() []byte {
-	content, err := os.ReadFile("input.txt")
-	if err != nil {
-		return nil
-	}
-	return content
-}
-
-func BenchmarkBruteForce(b *testing.B) {
-	content := loadRealInput()
-	if content == nil {
-		b.Skip("input.txt not found")
-	}
-
-	for b.Loop() {
-		solver := main.NewPlayground()
-		solver.Parse(strings.NewReader(string(content)))
-		solver.Solve(1000)
-	}
-}
-
-func BenchmarkKDTree(b *testing.B) {
-	content := loadRealInput()
-	if content == nil {
-		b.Skip("input.txt not found")
-	}
-
-	for b.Loop() {
-		solver := main.NewPlayground()
-		solver.Parse(strings.NewReader(string(content)))
-		solver.SolveWithKDTree(1000)
-	}
 }
